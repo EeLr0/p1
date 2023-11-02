@@ -108,6 +108,8 @@ def breadthFirstSearch(problem: SearchProblem):
     while not queue.isEmpty():
         state, action = queue.pop()
         if problem.isGoalState(state):
+            print(problem.isGoalState(state))
+            print(action)
             return action
         if state not in visited:
             for newState, newAction, _ in problem.getSuccessors(state):
@@ -124,11 +126,12 @@ def uniformCostSearch(problem: SearchProblem):
         state, action = queue.pop()
         if problem.isGoalState(state):
             return action
+        visited.add(state)
         if state not in visited:
             for newState, newAction, _ in problem.getSuccessors(state):
                 new = action + [newAction]
                 queue.update((newState, new), problem.getCostOfActions(new))
-        visited.add(state)
+        
     return []
 
 def nullHeuristic(state, problem=None):
