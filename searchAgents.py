@@ -336,10 +336,10 @@ class CornersProblem(search.SearchProblem):
             if not hitsWall:
                 corners = list(state[1])
                 if(nextx, nexty) in corners:
-                    print(corners)
+                    #print(corners)
                     corners.remove((nextx, nexty))
-                    print(corners)
-                    print(action)
+                    #print(corners)
+                    #print(action)
                 successors.append((((nextx, nexty), tuple(corners)), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
@@ -374,9 +374,17 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    
+   
+    minDistance = []
+    actualState = state[0]
+    for corner in corners:
+        distance = ( (actualState[0] - corner[0]) ** 2 + (actualState[1] - corner[1]) ** 2 ) ** 0.5
+        minDistance.append(distance)
+    minDistance.sort()
+            
+        
+    return minDistance[0] # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -402,6 +410,7 @@ class FoodSearchProblem:
 
     def getStartState(self):
         return self.start
+        
 
     def isGoalState(self, state):
         return state[1].count() == 0
@@ -469,8 +478,13 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+
+    foodPosition = foodGrid.asList()
+    if not foodPosition:
+        return 0
+    minDistance = min([util.manhattanDistance(position, food_pos) for food_pos in foodPosition])
+    return minDistance
+    
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
