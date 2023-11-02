@@ -390,7 +390,7 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
         unVisited.remove(corner)
             
         
-    return minDistance[0] # Default to trivial solution
+    return heuristic # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -490,6 +490,7 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
         return 0
     minDistance = min([util.manhattanDistance(position, food_pos) for food_pos in foodPosition])
     return minDistance
+
     
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -520,8 +521,7 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.uniformCostSearch(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -555,9 +555,10 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
-
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        print(x,y)
+        if self.food[x][y]:
+            return True
+        return False
 
 def mazeDistance(point1: Tuple[int, int], point2: Tuple[int, int], gameState: pacman.GameState) -> int:
     """
