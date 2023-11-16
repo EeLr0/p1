@@ -489,6 +489,8 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     if not foodPosition:
         return 0
     minDistance = max([util.manhattanDistance(position, food_pos) for food_pos in foodPosition])
+    #distance = min([util.manhattanDistance(position, food_pos) for food_pos in foodPosition])
+
     return minDistance
 
     
@@ -555,7 +557,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
-        print(x,y)
+        #print(x,y)
         if self.food[x][y]:
             return True
         return False
